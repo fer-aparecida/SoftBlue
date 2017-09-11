@@ -1,0 +1,11 @@
+<html>
+	<head>
+		<title>Formulário Simples: Form</title>
+	</head>
+	<body>
+		<form method=POST action="Formularios_SimplesTratamento.php">
+			Teste Teste
+		</form>
+	</body>
+</html>	
+
