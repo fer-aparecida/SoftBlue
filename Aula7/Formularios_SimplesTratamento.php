@@ -1,5 +1,4 @@
 <html>
-<!-- teste -->
 <head>
 	<title>Formulários Simples: Tratamento</title>
 </head>

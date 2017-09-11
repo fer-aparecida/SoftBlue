@@ -1,6 +1,5 @@
 <html>
 	<head>
-	<!-- teste -->
 		<title>Formulário Simples: Form</title>
 	</head>
 	<body>
