@@ -1,7 +1,7 @@
 <?php
 header('Content-type: text/html; charset=iso-8859-1');
 ?>
-<html>
+<html lang="EN">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
@@ -17,7 +17,7 @@ header('Content-type: text/html; charset=iso-8859-1');
 			<table class="table table-striped">
 				<tr>
 					<td>Nome:</td>
-					<td><input type=TEXT name=nome></td>
+					<td><input type=TEXT name=nome required></td>
 				</tr>
 				<tr>
 					<td>Sobrenome:</td>
