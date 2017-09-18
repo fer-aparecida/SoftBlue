@@ -25,18 +25,73 @@
 		else 
 		{
 			$valido = true;
-		}
+			
+			//Banco de Dados
+			
+			//Conexão com banco
+			try {
+				$connection = new PDO("mysql:host=localhost;dbname=cursophp", "root", "");
+				
+				$connection->exec("set names utf8"); // garantir que a comunicação entre o banco e o PHP aceitem caracteres especiais
+			
+			}catch(PDOException $e){
+				
+				echo "Falha: " . $e->getMessage();
+				exit();
+			}
+			
+			$sql = "INSERT INTO usuarios(nome, email, idade, sexo, estado_civil, humanas, exatas, biologicas, senha)
+					VALUES(?,?,?,?,?,?,?,?,?)";
+			
+			$stmt = $connection->prepare($sql);
+			
+			$stmt->bindParam(1, $_POST["nome"]); // 1 = número da posição da ?
+			$stmt->bindParam(2, $_POST["email"]);
+			$stmt->bindParam(3, $_POST["idade"]);
+			$stmt->bindParam(4, $_POST["sexo"]);
+			$stmt->bindParam(5, $_POST["estadocivil"]);
+			
+			$checkHumanas = isset($_POST["humanas"]) ? 1 : 0;
+			$stmt->bindParam(6, $checkHumanas);
+			
+			$checkExatas = isset($_POST["exatas"]) ? 1 : 0;
+			$stmt->bindParam(7, $checkExatas);
+			
+			$checkBiologicas = isset($_POST["biologicas"]) ? 1 : 0;
+			$stmt->bindParam(8, $checkBiologicas);
+			
+			$passwordHash = md5($_POST["senha"]);
+			
+			$stmt->bindParam(9, $passwordHash);
+			
+			$stmt->execute();
+			
+			if($stmt->errorCode() != "00000"){
+				$valido = false;
+				$erro = "Erro código " . $stmt->errorCode() . ": ";
+				$erro .= implode(",", $stmt->errorInfo());
+				
+			}
+			
+			
+			
+			
+				}
 		
 	}
 ?>
 <html>
 <head>
-	<title>Formulários Avançados</title>
+	<title>Formulários Avançados - banco de dados</title>
 </head>
 	<body>
 		<?php 
-			if ($valido == true)
-				echo "Dados enviados com sucesso";
+			if ($valido == true){
+				
+			
+				echo "Dados enviados com sucesso" . "<br>";
+				echo "<a href='BancodeDados_lista.php'>Visualizar registros</a>";
+			}
 			else 
 			{
 						
@@ -44,7 +99,7 @@
 					echo $erro . "<br><br>";
 			
 		?>
-				<form method=POST action="Formularios_Avancado.php?validar=true">
+				<form method=POST action="Formularios_Avancado_Banco.php?validar=true">
 					Nome:
 					<input type=TEXT name=nome
 						<?php 
