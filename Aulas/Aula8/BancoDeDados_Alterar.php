@@ -1,5 +1,4 @@
 <?php
-	//header('Content-type: text/html; charset=iso-8859-1');
 	
     $erro = null;
     $valido = false;
@@ -78,7 +77,7 @@
 ?>
 <html>
 <head>
-	<title>Formulários Avançados - banco de dados</title>
+	<title>Banco de dados - Alterar</title>
 </head>
     <body>
     <?php 
