@@ -33,19 +33,28 @@
 					echo "Falha: " . $e->getMessage();
 					exit();
 				}
-				
+				//Exclusão 
 				if (isset($_REQUEST["excluir"]) && $_REQUEST["excluir"] == true)
 				{
-					$stmt = $connection->prepare("DELETE FORM usuarios WHERE id = ?");
+					$stmt = $connection->prepare("DELETE FROM usuarios WHERE id = ?");
 					
 					$stmt->bindParam(1, $_REQUEST["id"]);
 					
-					$stmt->execute;
+					$stmt->execute();
 					
+					if ($stmt->errorCode() != "00000")
+					{
+						echo "Erro código " . $stmt->errorCode() . ": ";
+						echo implode(",", $stmt->errorInfo());
+					}
+					else 
+					{
+						echo "sucesso: Usuário removido com sucesso.";
+					}				
 					
 				}
 				
-				//Garregando a lista
+				//Garregando a lista // Seleção
 				$rs = $connection->prepare("SELECT * FROM usuarios");
 				
 				if ($rs->execute())
@@ -65,6 +74,9 @@
 						echo "<td>" . $registro->senha . "</td>";
 						echo "<td>";
 						echo "<a href='?excluir=true&id=" . $registro->id . "'>(exclusão)</a>";
+						echo "</td>";
+						echo "<td>";
+						echo "<a href='?alterar=true&id=" . $registro->id . "'>(alterar)</a>";
 						echo "</td>";
 						echo "</tr>";
 					}
