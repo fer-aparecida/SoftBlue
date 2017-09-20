@@ -1,5 +1,6 @@
 <?php
 	header('Content-type: text/html; charset=iso-8859-1');
+        //Testando git no netbeans
 ?>
 	
 <html>
@@ -16,24 +17,24 @@
 				<th>Estado Civil</th>
 				<th>Humanas</th>
 				<th>Exatas</th>
-				<th>Biológicas</th>
+				<th>Biolï¿½gicas</th>
 				<th>Hash da senha</th>	
-				<th>Ações</th>			
+				<th>Aï¿½ï¿½es</th>			
 			</tr>
 			
 			<?php 
-				//Conexão com o banco de dados
+				//Conexï¿½o com o banco de dados
 				try {
 					$connection = new PDO("mysql:host=localhost;dbname=cursophp", "root", "");
 				
-					$connection->exec("set names utf8"); // garantir que a comunicação entre o banco e o PHP aceitem caracteres especiais
+					$connection->exec("set names utf8"); // garantir que a comunicaï¿½ï¿½o entre o banco e o PHP aceitem caracteres especiais
 						
 				}catch(PDOException $e){
 				
 					echo "Falha: " . $e->getMessage();
 					exit();
 				}
-				//Exclusão 
+				//Exclusï¿½o 
 				if (isset($_REQUEST["excluir"]) && $_REQUEST["excluir"] == true)
 				{
 					$stmt = $connection->prepare("DELETE FROM usuarios WHERE id = ?");
@@ -44,17 +45,17 @@
 					
 					if ($stmt->errorCode() != "00000")
 					{
-						echo "Erro código " . $stmt->errorCode() . ": ";
+						echo "Erro cï¿½digo " . $stmt->errorCode() . ": ";
 						echo implode(",", $stmt->errorInfo());
 					}
 					else 
 					{
-						echo "sucesso: Usuário removido com sucesso.";
+						echo "sucesso: Usuï¿½rio removido com sucesso.";
 					}				
 					
 				}
 				
-				//Garregando a lista // Seleção
+				//Garregando a lista // Seleï¿½ï¿½o
 				$rs = $connection->prepare("SELECT * FROM usuarios");
 				
 				if ($rs->execute())
@@ -73,7 +74,7 @@
 						echo "<td>" . $registro->biologicas . "</td>";
 						echo "<td>" . $registro->senha . "</td>";
 						echo "<td>";
-						echo "<a href='?excluir=true&id=" . $registro->id . "'>(exclusão)</a>";
+						echo "<a href='?excluir=true&id=" . $registro->id . "'>(exclusï¿½o)</a>";
 						echo "</td>";
 						echo "<td>";
 						echo "<a href='?alterar=true&id=" . $registro->id . "'>(alterar)</a>";
@@ -83,7 +84,7 @@
 				}
 				else 
 				{
-					echo "Falha na seleção de usuários.";
+					echo "Falha na seleï¿½ï¿½o de usuï¿½rios.";
 				 
 				}
 				
