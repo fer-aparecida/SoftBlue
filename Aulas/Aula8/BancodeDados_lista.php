@@ -75,9 +75,8 @@
                     echo "<td>" . $registro->senha . "</td>";
                     echo "<td>";
                     echo "<a href='?excluir=true&id=" . $registro->id . "'>(exclusão)</a>";
-                    echo "</td>";
-                    echo "<td>";
-                    echo "<a href='?alterar=true&id=" . $registro->id . "'>(alterar)</a>";
+                    echo "<a href='BancoDeDados_Alterar.php?id=" . $registro->id . "'>(alteração)</a>";
+                    echo "<a href='BancoDeDados_Senha.php?id=" . $registro->id . "'>(alteração de senha)</a>";
                     echo "</td>";
                     echo "</tr>";
                 }

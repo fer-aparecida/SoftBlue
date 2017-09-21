@@ -3,6 +3,18 @@
     $erro = null;
     $valido = false;
     
+    //Conexão com banco
+    try {
+        $connection = new PDO("mysql:host=localhost;dbname=cursophp", "root", "");
+
+        $connection->exec("set names utf8"); // garantir que a comunica��o entre o banco e o PHP aceitem caracteres especiais
+
+    }catch(PDOException $e){
+
+        echo "Falha: " . $e->getMessage();
+        exit();
+            }
+    
     if(isset($_REQUEST["validar"]) && $_REQUEST["validar"] == true)
     {
         if(strlen(utf8_decode($_POST["nome"])) < 5)
@@ -27,20 +39,8 @@
 
             //Banco de Dados
 
-            //Conexão com banco
-            try {
-                $connection = new PDO("mysql:host=localhost;dbname=cursophp", "root", "");
-
-                $connection->exec("set names utf8"); // garantir que a comunica��o entre o banco e o PHP aceitem caracteres especiais
-
-            }catch(PDOException $e){
-
-                echo "Falha: " . $e->getMessage();
-                exit();
-            }
-
-            $sql = "INSERT INTO usuarios(nome, email, idade, sexo, estado_civil, humanas, exatas, biologicas, senha)
-                    VALUES(?,?,?,?,?,?,?,?,?)";
+            $sql = "UPDATE usuarios SET nome = ?, email= ?, idade= ?, sexo= ?, estado_civil= ?, humanas = ?, exatas = ?, biologicas = ? WHERE id = ?";
+             
 
             $stmt = $connection->prepare($sql);
 
@@ -59,9 +59,7 @@
             $checkBiologicas = isset($_POST["biologicas"]) ? 1 : 0;
             $stmt->bindParam(8, $checkBiologicas);
 
-            $passwordHash = md5($_POST["senha"]);
-
-            $stmt->bindParam(9, $passwordHash);
+            $stmt->bindParam(9, $_POST["id"]);
 
             $stmt->execute();
 
@@ -74,6 +72,32 @@
         }
 
     }
+    else
+    {
+        $rs = $connection->prepare("SELECT * FROM usuarios WHERE id = ?");
+        $rs->bindParam(1, $_REQUEST["id"]);
+        
+        if ($rs->execute()){
+            if ($registro = $rs->fetch(PDO::FETCH_OBJ)){
+                $_POST["nome"] = $registro->nome;
+                $_POST["email"] = $registro->email;
+                $_POST["idade"] = $registro->idade;
+                $_POST["sexo"] = $registro->sexo;
+                $_POST["estadocivil"] = $registro->estado_civil;
+                
+                
+                $_POST["humanas"] = $registro->humanas == 1 ? true : null;
+                $_POST["exatas"] = $registro->exatas == 1 ? true : null;
+                $_POST["biologicas"] = $registro->biologicas == 1 ? true : null;                
+            }
+            else{
+                $erro = "Registro não encontrado" ;
+            }
+        }
+        else{
+            $erro = "Falha na captura do registro";
+        }
+    }
 ?>
 <html>
 <head>
@@ -83,7 +107,7 @@
     <?php 
         if ($valido == true){
 					
-            echo "Dados enviados com sucesso" . "<br>";
+            echo "Dados alterados com sucesso" . "<br>";
             echo "<a href='BancodeDados_lista.php'>Visualizar registros</a>";
         }
         else 
@@ -93,7 +117,7 @@
                 echo $erro . "<br><br>";
 
     ?>
-	<form method=POST action="Formularios_Avancado_Banco.php?validar=true">
+	<form method=POST action="?validar=true">
             Nome:
             <input type=TEXT name=nome
             <?php 
@@ -188,11 +212,12 @@
                 >Viúvo(a)</option>
             </select>
             <br>
-
-            Senha:
-            <input type=PASSWORD name=senha><br>
-
-            <input type=SUBMIT value="Enviar">
+            <br>    
+            <!--Senha:
+            <input type=PASSWORD name=senha><br>-->
+            <input type=HIDDEN  name="id" value = "<?php echo $_REQUEST["id"]; ?>">
+                   
+            <input type=SUBMIT value="Alterar">
 
         </form>
     <?php
