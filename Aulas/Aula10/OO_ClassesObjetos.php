@@ -11,8 +11,8 @@
         private $cor;
         
         public function __construct($cor) {
-            $this->cor = $cor;
-            $this->velocidade = 0;
+            $this->setCor($cor);
+            $this->setVelocidade(0);
         }
         
         public function getVelocidade(){
@@ -23,15 +23,28 @@
             return $this->cor;
         }
         
-        public function setVelocidade($velocidade){
+        private function setVelocidade($velocidade){
             
-            if ($velocidade > 110){
+            if ($velocidade > 110 || $velocidade < 0){
                 echo "Velocidade não permitida.<br>";
             }else{
                 
                 $this->velocidade = $velocidade;
             }
         }
+        
+        public function setCor($cor){
+            $this->cor = $cor;
+        }
+        
+        public function acelerar(){
+            $this->setVelocidade($this->getVelocidade() + 1);
+        }
+        
+        public function frear(){
+            $this->setVelocidade($this->getVelocidade() - 1);
+        }
+                
     }
     
     //$meuCarro = new Carro();
@@ -42,12 +55,18 @@
     $meuCarro = new Carro("Vermelha");
     echo "O carro de cor " . $meuCarro->getCor() . " está andando: " . $meuCarro->getVelocidade() . " km.<br>";
     
-    $meuCarro->setVelocidade(70);
+    //$meuCarro->setVelocidade(70);
      
     echo "O carro de cor " . $meuCarro->getCor() . " está andando: " . $meuCarro->getVelocidade() . " km.<br>";
     
-    $meuCarro->setVelocidade(70);
-     
+    //$meuCarro->setVelocidade(70);
+     $meuCarro->acelerar();
+     $meuCarro->acelerar();
+     $meuCarro->acelerar();
+     $meuCarro->acelerar();
+     $meuCarro->acelerar();
+     $meuCarro->frear();
+     $meuCarro->frear();
     echo "O carro de cor " . $meuCarro->getCor() . " está andando: " . $meuCarro->getVelocidade() . " km.<br>";
     
 ?>
